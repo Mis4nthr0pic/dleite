@@ -1,0 +1,71 @@
+<%- include('partials/head') %>
+<section class="card">
+  <h1><%= t('scan.title') %> (Test)</h1>
+  <p class="muted">Use your camera to scan a QR; it will redirect and mark as consumed. Or paste a token below.</p>
+  <div class="grid-2">
+    <div>
+      <video id="video" autoplay playsinline style="width:100%;border:1px solid #1f2937;border-radius:8px"></video>
+      <canvas id="canvas" style="display:none"></canvas>
+      <div id="status" class="muted" style="margin-top:8px">Initializing camera…</div>
+    </div>
+    <div>
+      <form class="form" onsubmit="event.preventDefault(); const t = document.getElementById('token').value.trim(); if(t){ window.location.href = '/scan/' + encodeURIComponent(t); }">
+        <label>
+          <span>Manual token</span>
+          <input id="token" placeholder="Paste token here" />
+        </label>
+        <button class="btn primary" type="submit">Open</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const status = document.getElementById('status');
+
+  async function startCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream;
+      status.textContent = 'Camera ready. Point at a QR code.';
+      requestAnimationFrame(tick);
+    } catch (e) {
+      status.textContent = 'Camera not available. Use manual token.';
+    }
+  }
+
+  function tick() {
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imgData.data, imgData.width, imgData.height);
+      if (code && code.data) {
+        status.textContent = 'QR detected. Redirecting…';
+        const data = code.data.trim();
+        try {
+          const url = new URL(data, window.location.origin);
+          if (url.pathname.startsWith('/scan/')) {
+            window.location.href = url.href;
+          } else {
+            // If it looks like a token, redirect to /scan/<token>
+            window.location.href = '/scan/' + encodeURIComponent(data);
+          }
+        } catch {
+          window.location.href = '/scan/' + encodeURIComponent(data);
+        }
+        return; // stop loop after detection
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  startCamera();
+</script>
+<%- include('partials/foot') %>
+

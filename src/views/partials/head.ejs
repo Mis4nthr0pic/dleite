@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="<%= lng %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= t('app.title') %> - <%= (typeof title !== 'undefined' ? title : '') %></title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <script defer src="/static/js/ui.js"></script>
+</head>
+<body class="<%= bodyClass %>">
+  <% if (isAdmin) { %>
+    <div class="bg-waves" aria-hidden="true"></div>
+  <% } %>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/static/images/logo.png" alt="D’Leite Vegetal" class="brand-logo" onerror="this.onerror=null;this.src='/static/images/logo.jpeg'">
+    </div>
+    <nav>
+      <% if (isAdmin) { %>
+        <button id="sidebar-toggle" class="btn ghost show-mobile" type="button" aria-label="Abrir menu">☰</button>
+      <% } %>
+      <% if (user) { %>
+        <% if (user.role === 'admin') { %>
+          <% if (!currentPath.startsWith('/admin')) { %>
+            <a class="chip" href="/admin"><%= t('nav.admin') %></a>
+          <% } %>
+        <% } else if (user.role === 'association') { %>
+          <% if (!currentPath.startsWith('/assoc')) { %>
+            <a class="chip" href="/assoc"><%= t('nav.assoc') %></a>
+          <% } %>
+        <% } %>
+        <% if (!(user && user.role === 'admin')) { %>
+          <form action="/logout" method="post" style="display:inline">
+            <button class="btn" type="submit"><%= t('nav.logout') %></button>
+          </form>
+        <% } %>
+      <% } %>
+      <% if (!(user && user.role === 'admin')) { %>
+        <div class="dropdown" id="locale-switch">
+          <div class="dropdown-toggle chip" role="button" tabindex="0">
+            <span class="flag">🇧🇷</span> <span class="label">Português</span>
+          </div>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="?lng=pt"><span>🇧🇷</span> Português</a>
+            <a class="dropdown-item" href="?lng=en"><span>🇺🇸</span> English</a>
+          </div>
+        </div>
+      <% } %>
+    </nav>
+  </header>
+  <% if (isAdmin) { %>
+    <div class="sidebar-overlay" onclick="document.body.classList.remove('sidebar-open')"></div>
+  <% } %>
+  <main class="container">

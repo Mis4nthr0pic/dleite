@@ -1,0 +1,18 @@
+<%- include('../partials/head') %>
+<h1><%= t('assoc.orders') %></h1>
+<section class="card">
+  <form method="post" action="/assoc/orders" class="form inline">
+    <label><span><%= t('assoc.quantity') %></span><input type="number" min="1" name="quantity_requested" required></label>
+    <button class="btn primary" type="submit"><%= t('assoc.submit') %></button>
+  </form>
+</section>
+
+<table class="table">
+  <thead><tr><th>ID</th><th><%= t('common.quantity') %></th><th><%= t('common.status') %></th></tr></thead>
+  <tbody>
+    <% orders.forEach(o => { %>
+      <tr><td><%= o.id %></td><td><%= o.quantity_requested %></td><td><%= o.status %></td></tr>
+    <% }) %>
+  </tbody>
+</table>
+<%- include('../partials/foot') %>

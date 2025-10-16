@@ -1,0 +1,40 @@
+<aside class="admin-sidebar">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 6px 10px">
+    <h3 style="margin:0">i9</h3>
+    <button id="collapse-sidebar" class="btn ghost" title="Recolher" type="button">⟨⟩</button>
+  </div>
+  <nav class="admin-nav">
+    <a href="/admin" class="<%= currentPath === '/admin' ? 'active' : '' %>">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
+      </span><span class="label">Início</span>
+    </a>
+    <a href="/admin/associations" class="<%= currentPath.startsWith('/admin/associations') ? 'active' : '' %>">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7-2 1.5V21H5V11.5L3 10Zm4 2v7h4v-5h2v5h4v-7l-5-4-5 4Z"/></svg></span><span class="label"><%= t('admin.associations') %></span>
+    </a>
+    <a href="/admin/users" class="<%= currentPath.startsWith('/admin/users') ? 'active' : '' %>">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-9 9a9 9 0 0 1 18 0Z"/></svg></span><span class="label"><%= t('admin.users') %></span>
+    </a>
+    <a href="/admin/producers" class="<%= currentPath.startsWith('/admin/producers') ? 'active' : '' %>">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 21V8l6 4V8l6 4V8l6 4v9Z"/></svg></span><span class="label"><%= t('admin.producers') %></span>
+    </a>
+    <a href="/admin/batches" class="<%= currentPath.startsWith('/admin/batches') ? 'active' : '' %>">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 3 7l9 5 9-5-9-5Zm9 7-9 5-9-5v8l9 5 9-5V9Z"/></svg></span><span class="label"><%= t('admin.batches') %></span>
+    </a>
+    <a href="/admin/orders" class="<%= currentPath.startsWith('/admin/orders') ? 'active' : '' %>">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v18l-7-3-7 3V4a2 2 0 0 1 2-2Zm2 5v2h6V7H9Zm0 4v2h6v-2H9Z"/></svg></span><span class="label"><%= t('admin.orders') %></span>
+    </a>
+    <a href="/admin/qrtest" class="<%= currentPath.startsWith('/admin/qrtest') || currentPath.startsWith('/admin/qr-test') ? 'active' : '' %>">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3Zm10 0h8v8h-8V3ZM3 13h8v8H3v-8Zm12 0h4v4h-4v-4Zm0 6h6v2h-6v-2Zm6-6h2v6h-2v-6Z"/></svg></span><span class="label">QR Test</span>
+    </a>
+  </nav>
+  <div>
+    <a href="/admin/settings" class="<%= currentPath.startsWith('/admin/settings') ? 'active' : '' %>" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#0d1b12;text-decoration:none;border:1px solid transparent;margin-top:6px">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M10 2h4l.7 2.5 2.3 1.3 2.5-.7 2 3.5-1.8 1.8.3 2.6 2 1.4-1.5 3.4-2.5-.4-2 1.6L14 22h-4l-1.7-2.4-2-.6-2.3 1-1.6-3.4 1.9-1.3-.1-2.6L1.9 9.7 4 6.3l2.4.7 2-1.7L10 2Zm2 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg></span>
+      <span class="label">Configurações</span>
+    </a>
+    <form action="/logout" method="post" style="margin:8px 6px 0">
+      <button class="btn danger" style="width:100%" type="submit">Sair</button>
+    </form>
+  </div>
+</aside>

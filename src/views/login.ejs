@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+<section class="card">
+  <h1><%= t('login.title') %></h1>
+  <% if (typeof error !== 'undefined') { %>
+    <div class="alert"><%= error %></div>
+  <% } %>
+  <form method="post" action="/login" class="form">
+    <label>
+      <span><%= t('login.email') %></span>
+      <input type="email" name="email" required>
+    </label>
+    <label>
+      <span><%= t('login.password') %></span>
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit" class="btn primary"><%= t('login.submit') %></button>
+  </form>
+  <p class="muted"><%= t('login.demo') %></p>
+</section>
+<%- include('partials/foot') %>

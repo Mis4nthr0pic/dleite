@@ -1,0 +1,41 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+    <h1><%= t('admin.batches') %></h1>
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">Novo Lote</h2>
+        <button class="btn primary" type="submit" form="batch-form"><%= t('common.create') %></button>
+      </div>
+      <form id="batch-form" method="post" action="/admin/batches" class="grid-4 form">
+        <label><span>Código do Lote</span><input name="batch_number" placeholder="Ex.: LOTE-001" required></label>
+        <label><span><%= t('common.producer') %></span>
+          <select name="producer_id" required>
+            <% producers.forEach(p => { %>
+              <option value="<%= p.id %>"><%= p.name %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label><span><%= t('common.expiry') %></span><input type="date" name="expiry_date" required title="<%= t('validation.date') %>"></label>
+        <label><span><%= t('common.quantity') %></span><input type="number" name="quantity_produced" min="1" required title="<%= t('validation.quantity') %>"></label>
+      </form>
+    </section>
+
+<table class="table">
+  <thead><tr><th>ID</th><th>#</th><th><%= t('common.producer') %></th><th><%= t('common.expiry') %></th><th><%= t('common.quantity') %></th></tr></thead>
+  <tbody>
+    <% batches.forEach(b => { %>
+      <tr>
+        <td><%= b.id %></td>
+        <td><span class="badge-soft"><%= b.batch_number %></span></td>
+        <td><%= b.producer_name %></td>
+        <td><%= b.expiry_date %></td>
+        <td><%= b.quantity_produced %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+  </section>
+</div>
+<%- include('../partials/foot') %>

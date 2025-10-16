@@ -1,0 +1,48 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+    <h1><%= t('admin.associations') %></h1>
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">Nova Associação</h2>
+        <button class="btn primary" type="submit" form="assoc-form"><%= t('common.create') %></button>
+      </div>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert warn"><%= error %></div>
+      <% } %>
+      <form id="assoc-form" method="post" action="/admin/associations" class="grid-2 form" novalidate>
+        <label><span><%= t('common.neighborhood') %></span><input name="neighborhood_name" required value="<%= (form && form.neighborhood_name) || '' %>"></label>
+        <label><span><%= t('common.president') %></span><input name="president_name" required value="<%= (form && form.president_name) || '' %>"></label>
+        <label><span><%= t('common.email') %></span><input type="email" name="email" required title="<%= t('validation.email') %>" value="<%= (form && form.email) || '' %>"></label>
+        <label><span><%= t('common.phone') %></span><input name="phone" inputmode="numeric" pattern="\d{10,15}" placeholder="Somente números" required title="<%= t('validation.phone') %>" value="<%= (form && form.phone) || '' %>"></label>
+      </form>
+      <p class="muted">Dica: telefone deve ter entre 10 e 15 dígitos.</p>
+    </section>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th><th><%= t('common.neighborhood') %></th><th><%= t('common.president') %></th><th><%= t('common.email') %></th><th><%= t('common.phone') %></th><th><%= t('common.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% rows.forEach(r => { %>
+      <tr>
+        <td><%= r.id %></td>
+        <td><%= r.neighborhood_name %></td>
+        <td><%= r.president_name %></td>
+        <td><%= r.email %></td>
+        <td><%= r.phone %></td>
+        <td>
+          <form method="post" action="/admin/associations/<%= r.id %>/delete" onsubmit="return confirm('Tem certeza que deseja excluir esta associação? Esta ação não pode ser desfeita.')">
+            <button class="btn danger" type="submit"><%= t('common.delete') %></button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+    </table>
+  </section>
+</div>
+<%- include('../partials/foot') %>

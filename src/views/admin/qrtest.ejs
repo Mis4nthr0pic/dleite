@@ -1,0 +1,74 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+    <section class="card">
+      <h1>QR Test (i9)</h1>
+      <p class="muted">Scan with your camera or paste a token to simulate consumer behavior.</p>
+      <div class="grid-2">
+        <div>
+          <video id="video" autoplay playsinline style="width:100%;border:1px solid var(--stroke);border-radius:12px"></video>
+          <canvas id="canvas" style="display:none"></canvas>
+          <div id="status" class="muted" style="margin-top:8px">Initializing camera…</div>
+        </div>
+        <div>
+          <form class="form" onsubmit="event.preventDefault(); const t = document.getElementById('token').value.trim(); if(t){ window.open('/scan/' + encodeURIComponent(t), '_blank'); }">
+            <label>
+              <span>Manual token</span>
+              <input id="token" placeholder="Paste token here" />
+            </label>
+            <button class="btn primary" type="submit">Open in new tab</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const status = document.getElementById('status');
+
+  async function startCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream;
+      status.textContent = 'Camera ready. Point at a QR code.';
+      requestAnimationFrame(tick);
+    } catch (e) {
+      status.textContent = 'Camera not available. Use manual token.';
+    }
+  }
+
+  function tick() {
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imgData.data, imgData.width, imgData.height);
+      if (code && code.data) {
+        status.textContent = 'QR detected. Opening…';
+        const data = code.data.trim();
+        try {
+          const url = new URL(data, window.location.origin);
+          if (url.pathname.startsWith('/scan/')) {
+            window.open(url.origin + '/scan/info/' + encodeURIComponent(url.pathname.split('/').pop()), '_blank');
+          } else {
+            window.open('/scan/info/' + encodeURIComponent(data), '_blank');
+          }
+        } catch {
+          window.open('/scan/info/' + encodeURIComponent(data), '_blank');
+        }
+        return; // stop loop after detection
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  startCamera();
+</script>
+<%- include('../partials/foot') %>

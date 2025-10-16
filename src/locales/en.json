@@ -1,0 +1,86 @@
+{
+  "app": {
+    "title": "Vegetal Milk Aid"
+  },
+  "nav": {
+    "logout": "Logout",
+    "language": "Language",
+    "admin": "i9",
+    "assoc": "Association",
+    "consume": "Scan Milk",
+    "home": "Home"
+  },
+  "login": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "invalid": "Invalid email or password",
+    "demo": "Demo accounts: admin@example.com/admin123, assoc@example.com/assoc123"
+  },
+  "admin": {
+    "dashboard": "i9 Dashboard",
+    "associations": "Associations",
+    "users": "Users",
+    "producers": "Producers",
+    "batches": "Batches",
+    "orders": "Orders",
+    "qrcodes": "QR Codes",
+    "stats": {
+      "associations": "Associations",
+      "orders": "Orders",
+      "batches": "Batches",
+      "qr": "QR Codes"
+    }
+  },
+  "assoc": {
+    "dashboard": "Association Dashboard",
+    "orders": "Orders",
+    "place_order": "Place Order",
+    "quantity": "Quantity",
+    "submit": "Submit"
+  },
+  "scan": {
+    "title": "QR Scan",
+    "ok": "Thank you! Milk marked as consumed.",
+    "already": "This QR was already consumed.",
+    "notfound": "Invalid QR code."
+  },
+  "consume": {
+    "hero_title": "Scan Your Milk",
+    "hero_desc": "Point your camera at the QR label to mark your unit as consumed.",
+    "start": "Start Scanning",
+    "fullscreen": "Open Fullscreen Scanner",
+    "manual": "Manual token",
+    "confirm": "Confirm Consumption"
+  },
+  "common": {
+    "create": "Create",
+    "delete": "Delete",
+    "save": "Save",
+    "password": "Password",
+    "batch": "Batch",
+    "producer": "Producer",
+    "expiry": "Expiry",
+    "quantity": "Quantity",
+    "status": "Status",
+    "actions": "Actions",
+    "neighborhood": "Neighborhood",
+    "president": "President",
+    "phone": "Phone",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "admin": "Admin",
+    "association": "Association",
+    "select": "Select..."
+  },
+  "validation": {
+    "required": "This field is required.",
+    "email": "Enter a valid email address.",
+    "phone": "Enter only digits (10–15).",
+    "cnpj": "Enter a valid 14-digit CNPJ.",
+    "quantity": "Enter a positive quantity.",
+    "date": "Select a valid date."
+  }
+}

@@ -1,0 +1,30 @@
+<%- include('partials/head') %>
+<section class="card">
+  <h1><%= t('scan.title') %></h1>
+  <% if (status === 'ok') { %>
+    <div class="alert success"><%= t('scan.ok') %></div>
+  <% } else if (status === 'already') { %>
+    <div class="alert warn"><%= t('scan.already') %></div>
+  <% } else { %>
+    <div class="alert"><%= t('scan.notfound') %></div>
+  <% } %>
+</section>
+
+<% if (status !== 'notfound') { %>
+  <% var i = (typeof info !== 'undefined' && info) ? info : {}; %>
+  <section class="gradient-card" style="margin-top:12px">
+    <div class="inner">
+      <h2>Informações do Lote</h2>
+      <div class="features">
+        <div class="feature"><h3><%= t('common.batch') %></h3><p>#<%= i.batch_number || '-' %></p></div>
+        <div class="feature"><h3><%= t('common.producer') %></h3><p><%= i.producer_name || '-' %></p></div>
+        <div class="feature"><h3><%= t('common.expiry') %></h3><p><%= i.expiry_date || '-' %></p></div>
+        <div class="feature"><h3>Associação</h3><p><%= i.association_name || '-' %></p></div>
+        <div class="feature"><h3>Token</h3><p style="word-break:break-all"><%= i.token || '-' %></p></div>
+        <div class="feature"><h3>Consumido em</h3><p><%= i.consumed_at || '-' %></p></div>
+      </div>
+    </div>
+  </section>
+<% } %>
+
+<%- include('partials/foot') %>

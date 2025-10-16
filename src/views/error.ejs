@@ -1,0 +1,15 @@
+<%- include('partials/head') %>
+<section class="card">
+  <h1>Erro</h1>
+  <p class="muted"><%= typeof message !== 'undefined' ? message : 'Ocorreu um erro inesperado.' %></p>
+  <% if (typeof details !== 'undefined' && details) { %>
+    <pre style="white-space:pre-wrap"><%= details %></pre>
+  <% } %>
+  <div class="tabs" style="margin-top:10px">
+    <a class="btn" href="javascript:history.back()">Voltar</a>
+    <a class="btn secondary" href="/admin">Ir para o painel</a>
+  </div>
+  
+</section>
+<%- include('partials/foot') %>
+

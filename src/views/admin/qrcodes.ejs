@@ -1,0 +1,22 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+    <h1><%= t('admin.qrcodes') %> · #<%= order.id %> · <%= order.neighborhood_name %></h1>
+    <div class="qr-grid">
+      <% qrs.forEach(q => { %>
+        <div class="qr-item">
+          <a href="/scan/info/<%= q.token %>" target="_blank" title="Open info view">
+            <img alt="QR" src="<%= images[q.id] %>">
+          </a>
+          <div class="qr-token"><%= q.token %></div>
+          <div class="muted"><%= q.status %></div>
+        </div>
+      <% }) %>
+      <% if (qrs.length === 0) { %>
+        <p class="muted">No QR codes yet.</p>
+      <% } %>
+    </div>
+  </section>
+</div>
+<%- include('../partials/foot') %>

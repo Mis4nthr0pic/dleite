@@ -1,0 +1,39 @@
+{
+  "name": "milk",
+  "version": "1.0.0",
+  "description": "Vegetal milk social distribution system",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "NODE_ENV=development node --watch src/server.js",
+    "dev:restart": "sh -c 'touch src/server.js'",
+    "db:reset": "node scripts/db-reset.js",
+    "users:list": "node scripts/list-users.js",
+    "seed:more": "node scripts/seed-more.js"
+  },
+  "keywords": [
+    "vegetal",
+    "milk",
+    "social",
+    "sqlite",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "connect-sqlite3": "^0.9.16",
+    "dayjs": "^1.11.18",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "i18next": "^25.6.0",
+    "i18next-fs-backend": "^2.6.0",
+    "i18next-http-middleware": "^3.8.1",
+    "morgan": "^1.10.1",
+    "qrcode": "^1.5.4",
+    "sqlite3": "^5.1.7",
+    "uuid": "^13.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+    <h1>Configurações</h1>
+    <section class="card">
+      <h3>Idioma</h3>
+      <p class="muted">Escolha o idioma da interface administrativa.</p>
+      <div class="tabs">
+        <a class="btn secondary" href="?lng=pt">🇧🇷 Português</a>
+        <a class="btn secondary" href="?lng=en">🇺🇸 English</a>
+      </div>
+      <p class="muted">A alteração é salva em cookie e aplicada nas próximas páginas.</p>
+    </section>
+  </section>
+</div>
+<%- include('../partials/foot') %>
+

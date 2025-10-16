@@ -1,0 +1,38 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+<h1><%= t('admin.orders') %></h1>
+<table class="table">
+  <thead><tr><th>ID</th><th>Associação</th><th><%= t('common.quantity') %></th><th><%= t('common.status') %></th><th><%= t('common.actions') %></th></tr></thead>
+  <tbody>
+    <% orders.forEach(o => { %>
+      <tr>
+        <td><%= o.id %></td>
+        <td><%= o.neighborhood_name %></td>
+        <td><%= o.quantity_requested %></td>
+        <td>
+          <% const statusClass = o.status === 'fulfilled' ? 'status-fulfilled' : (o.status === 'partial' ? 'status-partial' : 'status-pending'); %>
+          <span class="status-chip <%= statusClass %>"><%= o.status %></span>
+        </td>
+        <td>
+          <div class="actions">
+            <form class="inline-form" method="post" action="/admin/orders/<%= o.id %>/fulfill">
+              <select name="batch_id" required>
+                <% batches.forEach(b => { %>
+                  <option value="<%= b.id %>"><%= b.batch_number %> · <%= b.producer_name %></option>
+                <% }) %>
+              </select>
+              <input type="number" name="quantity_allocated" min="1" placeholder="Qtd" required>
+              <button class="btn sm primary" type="submit">Alocar</button>
+            </form>
+            <a class="btn sm secondary" href="/admin/orders/<%= o.id %>/qrcodes"><%= t('admin.qrcodes') %></a>
+          </div>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+  </table>
+  </section>
+</div>
+<%- include('../partials/foot') %>

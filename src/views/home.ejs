@@ -1,0 +1,194 @@
+<%- include('partials/head') %>
+
+<section class="hero">
+  <div class="hero-grid">
+    <!-- Left: logo, mission, actions integrated -->
+    <div class="hero-left">
+      <img src="/static/images/logo.png" alt="D'Leite Vegetal" class="hero-logo" onerror="this.onerror=null;this.src='/static/images/logo.jpeg'">
+      <h1 class="hero-title">Compre do pequeno</h1>
+      <p class="lead">
+        Unimos <span class="chip-accent">produção local</span>, <span class="chip-accent">capacitação</span> e
+        <span class="chip-accent">distribuição justa</span> para garantir acesso ao D'Leite Vegetal a famílias
+        em situação de vulnerabilidade. Valorizamos os produtores da comunidade e priorizamos saúde,
+        dignidade e sustentabilidade — com processos simples, transparentes e inclusivos.
+      </p>
+      <div class="hero-actions">
+        <button class="btn primary" onclick="openQRScanner()">LER QR CODE DA EMBALAGEM</button>
+        <a class="btn" href="/login">i9 / Associação Login</a>
+      </div>
+    </div>
+    <!-- Right: bottle with animation -->
+    <div class="hero-bottle">
+      <img src="/static/images/bottle.png" alt="Garrafa de D'Leite Vegetal">
+    </div>
+  </div>
+</section>
+
+<section class="impact-section">
+  <h2 class="impact-title">Nosso Impacto</h2>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number" data-count="1000">0</div>
+      <div class="stat-label">Famílias Atendidas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-count="500">0</div>
+      <div class="stat-label">Litros Produzidos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" data-count="50">0</div>
+      <div class="stat-label">Produtores Locais</div>
+    </div>
+  </div>
+</section>
+
+<section class="media-showcase">
+  <div class="showcase-grid">
+    <!-- Video -->
+    <div class="media-frame">
+      <video src="/static/images/video.mp4" autoplay muted loop playsinline preload="metadata" poster="/static/images/picture1.jpeg"></video>
+    </div>
+    <!-- Carousel -->
+    <div class="carousel">
+      <div class="slides">
+        <div class="slide"><img src="/static/images/picture2.jpeg" alt="D'Leite Vegetal 2" /></div>
+        <div class="slide"><img src="/static/images/picture3.jpeg" alt="D'Leite Vegetal 3" /></div>
+        <div class="slide"><img src="/static/images/picture4.jpeg" alt="D'Leite Vegetal 4" /></div>
+        <div class="slide"><img src="/static/images/picture5.jpeg" alt="D'Leite Vegetal 5" /></div>
+        <div class="slide"><img src="/static/images/picture6.jpeg" alt="D'Leite Vegetal 6" /></div>
+      </div>
+      <div class="nav">
+        <button data-prev aria-label="Previous">←</button>
+        <button data-next aria-label="Next">→</button>
+      </div>
+      <div class="dots"></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-content">
+    <h2 class="cta-title">Faça Parte da Transformação</h2>
+    <p class="cta-text">Juntos, construímos uma comunidade mais saudável, justa e sustentável.</p>
+    <div class="cta-buttons">
+      <button class="btn primary big" onclick="openQRScanner()">Escanear QR Code</button>
+      <a class="btn secondary big" href="/login">Fazer Login</a>
+    </div>
+  </div>
+</section>
+
+<footer class="landing-footer">
+  <div class="footer-content">
+    <p class="footer-brand">Propriedade de i9</p>
+    <p class="footer-tagline">Compre do pequeno</p>
+    <div class="footer-social">
+      <span class="social-icon">🌱</span>
+      <span class="social-icon">💚</span>
+      <span class="social-icon">🤝</span>
+    </div>
+  </div>
+</footer>
+
+<!-- QR Scanner Modal -->
+<div id="qr-modal" class="qr-modal">
+  <div class="qr-modal-content">
+    <button class="qr-modal-close" onclick="closeQRScanner()">&times;</button>
+    <h2 class="qr-modal-title">Escanear QR Code</h2>
+    <p class="qr-modal-subtitle">Aponte a câmera para o código QR da embalagem</p>
+    <div class="qr-scanner-container">
+      <video id="qr-video" autoplay playsinline></video>
+      <canvas id="qr-canvas" style="display:none"></canvas>
+      <div id="qr-status" class="qr-status">Inicializando câmera...</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+let qrStream = null;
+let qrAnimationId = null;
+
+function openQRScanner() {
+  const modal = document.getElementById('qr-modal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  startQRCamera();
+}
+
+function closeQRScanner() {
+  const modal = document.getElementById('qr-modal');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+  stopQRCamera();
+}
+
+function stopQRCamera() {
+  if (qrStream) {
+    qrStream.getTracks().forEach(track => track.stop());
+    qrStream = null;
+  }
+  if (qrAnimationId) {
+    cancelAnimationFrame(qrAnimationId);
+    qrAnimationId = null;
+  }
+}
+
+async function startQRCamera() {
+  const video = document.getElementById('qr-video');
+  const canvas = document.getElementById('qr-canvas');
+  const ctx = canvas.getContext('2d');
+  const status = document.getElementById('qr-status');
+
+  try {
+    qrStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment' }
+    });
+    video.srcObject = qrStream;
+    status.textContent = 'Câmera pronta. Aponte para o código QR.';
+
+    function tick() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imgData.data, imgData.width, imgData.height);
+
+        if (code && code.data) {
+          status.textContent = 'QR detectado! Redirecionando...';
+          const data = code.data.trim();
+          stopQRCamera();
+
+          try {
+            const url = new URL(data, window.location.origin);
+            if (url.pathname.startsWith('/scan/')) {
+              window.location.href = url.href;
+            } else {
+              window.location.href = '/scan/' + encodeURIComponent(data);
+            }
+          } catch {
+            window.location.href = '/scan/' + encodeURIComponent(data);
+          }
+          return;
+        }
+      }
+      qrAnimationId = requestAnimationFrame(tick);
+    }
+
+    qrAnimationId = requestAnimationFrame(tick);
+  } catch (e) {
+    status.textContent = 'Não foi possível acessar a câmera. Verifique as permissões.';
+    console.error('Camera error:', e);
+  }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', (e) => {
+  const modal = document.getElementById('qr-modal');
+  if (e.target === modal) {
+    closeQRScanner();
+  }
+});
+</script>
+
+<%- include('partials/foot') %>

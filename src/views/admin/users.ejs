@@ -1,0 +1,55 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+    <h1><%= t('admin.users') %></h1>
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">Novo Usuário</h2>
+        <button class="btn primary" type="submit" form="user-form"><%= t('common.create') %></button>
+      </div>
+      <form id="user-form" method="post" action="/admin/users" class="grid-3 form" novalidate>
+        <label><span><%= t('common.name') %></span><input name="name" required></label>
+        <label><span><%= t('common.email') %></span><input type="email" name="email" required></label>
+        <label><span><%= t('common.password') %></span><input type="password" name="password" required title="<%= t('validation.required') %>"></label>
+        <label class="col-2">
+          <span><%= t('common.role') %></span>
+          <select name="role" id="role" required onchange="document.getElementById('assoc-select').style.display = this.value==='association' ? 'block' : 'none'">
+            <option value="admin"><%= t('common.admin') %></option>
+            <option value="association"><%= t('common.association') %></option>
+          </select>
+        </label>
+        <label id="assoc-select" style="display:none">
+          <span><%= t('admin.associations') %></span>
+          <select name="association_id">
+            <option value=""><%= t('common.select') %></option>
+            <% associations.forEach(a => { %>
+              <option value="<%= a.id %>"><%= a.neighborhood_name %></option>
+            <% }) %>
+          </select>
+        </label>
+      </form>
+    </section>
+
+<table class="table">
+  <thead><tr><th>ID</th><th><%= t('common.name') %></th><th><%= t('common.email') %></th><th><%= t('common.role') %></th><th><%= t('admin.associations') %></th><th><%= t('common.actions') %></th></tr></thead>
+  <tbody>
+    <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.id %></td>
+        <td><%= u.name %></td>
+        <td><%= u.email %></td>
+        <td><%= u.role %></td>
+        <td><%= u.association_name || '-' %></td>
+        <td>
+          <form method="post" action="/admin/users/<%= u.id %>/delete" onsubmit="return confirm('Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.')">
+            <button class="btn danger" type="submit"><%= t('common.delete') %></button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+    </table>
+  </section>
+</div>
+<%- include('../partials/foot') %>

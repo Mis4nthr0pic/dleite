@@ -1,0 +1,44 @@
+<%- include('../partials/head') %>
+<div class="admin-shell">
+  <%- include('../admin/sidebar') %>
+  <section class="admin-content">
+    <h1><%= t('admin.producers') %></h1>
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">Novo Produtor</h2>
+        <button class="btn primary" type="submit" form="producer-form"><%= t('common.create') %></button>
+      </div>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert warn"><%= error %></div>
+      <% } %>
+      <form id="producer-form" method="post" action="/admin/producers" class="grid-2 form" novalidate>
+        <label>
+          <span>CNPJ</span>
+          <input name="cnpj" inputmode="numeric" pattern="\d{14}" placeholder="Somente números (14)" required title="<%= t('validation.cnpj') %>" value="<%= (form && form.cnpj) || '' %>">
+        </label>
+        <label><span><%= t('common.name') %></span><input name="name" required value="<%= (form && form.name) || '' %>"></label>
+      </form>
+      <p class="muted">O CNPJ deve ter 14 dígitos e ser válido.</p>
+    </section>
+
+<table class="table">
+  <thead><tr><th>ID</th><th>CNPJ</th><th><%= t('common.name') %></th><th><%= t('common.actions') %></th></tr></thead>
+  <tbody>
+    <% rows.forEach(r => { %>
+      <tr>
+        <td><%= r.id %></td>
+        <td><%= r.cnpj %></td>
+        <td><%= r.name %></td>
+        <td>
+          <form method="post" action="/admin/producers/<%= r.id %>/delete" onsubmit="return confirm('Tem certeza que deseja excluir este produtor? Esta ação não pode ser desfeita.')">
+            <button class="btn danger" type="submit"><%= t('common.delete') %></button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+  
+    </table>
+  </section>
+</div>
+<%- include('../partials/foot') %>

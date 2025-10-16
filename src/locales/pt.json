@@ -1,0 +1,86 @@
+{
+  "app": {
+    "title": "Leite Vegetal Social"
+  },
+  "nav": {
+    "logout": "Sair",
+    "language": "Idioma",
+    "admin": "i9",
+    "assoc": "Associação",
+    "consume": "Ler QR",
+    "home": "Início"
+  },
+  "login": {
+    "title": "Entrar",
+    "email": "Email",
+    "password": "Senha",
+    "submit": "Entrar",
+    "invalid": "Email ou senha inválidos",
+    "demo": "Contas demo: admin@example.com/admin123, assoc@example.com/assoc123"
+  },
+  "admin": {
+    "dashboard": "Painel i9",
+    "associations": "Associações",
+    "users": "Usuários",
+    "producers": "Produtores",
+    "batches": "Lotes",
+    "orders": "Pedidos",
+    "qrcodes": "QR Codes",
+    "stats": {
+      "associations": "Associações",
+      "orders": "Pedidos",
+      "batches": "Lotes",
+      "qr": "QR Codes"
+    }
+  },
+  "assoc": {
+    "dashboard": "Painel da Associação",
+    "orders": "Pedidos",
+    "place_order": "Fazer Pedido",
+    "quantity": "Quantidade",
+    "submit": "Enviar"
+  },
+  "scan": {
+    "title": "Leitura de QR",
+    "ok": "Obrigado! Leite marcado como consumido.",
+    "already": "Este QR já foi consumido.",
+    "notfound": "QR code inválido."
+  },
+  "consume": {
+    "hero_title": "Leia o QR do seu leite",
+    "hero_desc": "Aponte a câmera para o QR do rótulo para marcar sua unidade como consumida.",
+    "start": "Iniciar Leitura",
+    "fullscreen": "Abrir Leitor em Tela Cheia",
+    "manual": "Token manual",
+    "confirm": "Confirmar Consumo"
+  },
+  "common": {
+    "create": "Criar",
+    "delete": "Excluir",
+    "save": "Salvar",
+    "password": "Senha",
+    "batch": "Lote",
+    "producer": "Produtor",
+    "expiry": "Validade",
+    "quantity": "Quantidade",
+    "status": "Status",
+    "actions": "Ações",
+    "neighborhood": "Bairro",
+    "president": "Presidente",
+    "phone": "Telefone",
+    "name": "Nome",
+    "email": "Email",
+    "role": "Função",
+    "admin": "i9",
+    "association": "Associação",
+    "select": "Selecionar..."
+  },
+  "validation": {
+    "required": "Este campo é obrigatório.",
+    "email": "Informe um email válido.",
+    "phone": "Informe apenas números (10 a 15 dígitos).",
+    "cnpj": "Informe um CNPJ válido com 14 dígitos.",
+    "quantity": "Informe uma quantidade positiva.",
+    "date": "Selecione uma data válida."
+  }
+}
