@@ -4,17 +4,14 @@
   <div class="hero-grid">
     <!-- Left: logo, mission, actions integrated -->
     <div class="hero-left">
-      <img src="/static/images/logo.png" alt="D'Leite Vegetal" class="hero-logo" onerror="this.onerror=null;this.src='/static/images/logo.jpeg'">
-      <h1 class="hero-title">Compre do pequeno</h1>
+      <a href="/" aria-label="Página inicial"><img src="/static/images/logo.png" alt="D'Leite Vegetal" class="hero-logo" onerror="this.onerror=null;this.src='/static/images/logo.jpeg'"></a>
+      <h1 class="hero-title"><%= t('home.title', { defaultValue: 'Da Comunidade para a Comunidade' }) %></h1>
       <p class="lead">
-        Unimos <span class="chip-accent">produção local</span>, <span class="chip-accent">capacitação</span> e
-        <span class="chip-accent">distribuição justa</span> para garantir acesso ao D'Leite Vegetal a famílias
-        em situação de vulnerabilidade. Valorizamos os produtores da comunidade e priorizamos saúde,
-        dignidade e sustentabilidade — com processos simples, transparentes e inclusivos.
+        <%= t('home.subtitle', { defaultValue: 'Unimos produção local, capacitação e distribuição justa para garantir acesso ao D’Leite Vegetal com processos simples, transparentes e inclusivos.' }) %>
       </p>
       <div class="hero-actions">
-        <button class="btn primary" onclick="openQRScanner()">LER QR CODE DA EMBALAGEM</button>
-        <a class="btn" href="/login">i9 / Associação Login</a>
+        <button class="btn primary" onclick="openQRScanner()"><%= t('home.ctaScan', { defaultValue: 'LER QR CODE DA EMBALAGEM' }) %></button>
+        <a class="btn" href="/login"><%= t('home.ctaLogin', { defaultValue: 'i9 / Associação Login' }) %></a>
       </div>
     </div>
     <!-- Right: bottle with animation -->
@@ -25,19 +22,23 @@
 </section>
 
 <section class="impact-section">
-  <h2 class="impact-title">Nosso Impacto</h2>
+  <h2 class="impact-title"><%= t('impact.title', { defaultValue: 'Nosso Impacto' }) %></h2>
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-number" data-count="1000">0</div>
-      <div class="stat-label">Famílias Atendidas</div>
+      <div class="stat-number">2.450</div>
+      <div class="stat-label"><%= t('impact.liters', { defaultValue: 'Litros' }) %></div>
     </div>
     <div class="stat-card">
-      <div class="stat-number" data-count="500">0</div>
-      <div class="stat-label">Litros Produzidos</div>
+      <div class="stat-number">200</div>
+      <div class="stat-label"><%= t('impact.families', { defaultValue: 'Famílias' }) %></div>
     </div>
     <div class="stat-card">
-      <div class="stat-number" data-count="50">0</div>
-      <div class="stat-label">Produtores Locais</div>
+      <div class="stat-number">7</div>
+      <div class="stat-label"><%= t('impact.yearsStudy', { defaultValue: 'Anos de estudo' }) %></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2</div>
+      <div class="stat-label"><%= t('impact.yearsDelivery', { defaultValue: 'Anos de entrega' }) %></div>
     </div>
   </div>
 </section>
@@ -93,12 +94,22 @@
 <div id="qr-modal" class="qr-modal">
   <div class="qr-modal-content">
     <button class="qr-modal-close" onclick="closeQRScanner()">&times;</button>
-    <h2 class="qr-modal-title">Escanear QR Code</h2>
-    <p class="qr-modal-subtitle">Aponte a câmera para o código QR da embalagem</p>
+    <h2 class="qr-modal-title"><%= t('qr.modalTitle', { defaultValue: 'Escanear QR Code' }) %></h2>
+    <p class="qr-modal-subtitle"><%= t('qr.modalSubtitle', { defaultValue: 'Aponte a câmera para o código QR da embalagem' }) %></p>
     <div class="qr-scanner-container">
       <video id="qr-video" autoplay playsinline></video>
       <canvas id="qr-canvas" style="display:none"></canvas>
-      <div id="qr-status" class="qr-status">Inicializando câmera...</div>
+      <div id="qr-status" class="qr-status"><%= t('qr.initializing', { defaultValue: 'Inicializando câmera...' }) %></div>
+    </div>
+    <div id="qr-result" class="qr-result" style="display:none;margin-top:14px">
+      <h3 style="margin:0 0 8px"><%= t('qr.resultTitle', { defaultValue: 'Resultado da Leitura' }) %></h3>
+      <div class="qr-result-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+        <div><strong><%= t('common.batch') %>:</strong> <span id="qr-res-batch">-</span></div>
+        <div><strong><%= t('common.producer') %>:</strong> <span id="qr-res-producer">-</span></div>
+        <div><strong><%= t('common.expiry') %>:</strong> <span id="qr-res-expiry">-</span></div>
+        <div><strong>Associação:</strong> <span id="qr-res-assoc">-</span></div>
+        <div style="grid-column:span 2"><strong>Token:</strong> <span id="qr-res-token">-</span></div>
+      </div>
     </div>
   </div>
 </div>
@@ -146,7 +157,7 @@ async function startQRCamera() {
     video.srcObject = qrStream;
     status.textContent = 'Câmera pronta. Aponte para o código QR.';
 
-    function tick() {
+    async function tick() {
       if (video.readyState === video.HAVE_ENOUGH_DATA) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
@@ -155,21 +166,30 @@ async function startQRCamera() {
         const code = jsQR(imgData.data, imgData.width, imgData.height);
 
         if (code && code.data) {
-          status.textContent = 'QR detectado! Redirecionando...';
-          const data = code.data.trim();
-          stopQRCamera();
-
+          status.textContent = 'QR detectado! Consultando...';
+          const raw = code.data.trim();
+          const token = raw.replace(/^.*\/scan\//,'');
           try {
-            const url = new URL(data, window.location.origin);
-            if (url.pathname.startsWith('/scan/')) {
-              window.location.href = url.href;
+            const resp = await fetch('/scan/api/' + encodeURIComponent(token));
+            if (!resp.ok) throw new Error('request failed');
+            const json = await resp.json();
+            if (json && json.success && json.info) {
+              document.getElementById('qr-res-batch').textContent = json.info.batch_number || '-';
+              document.getElementById('qr-res-producer').textContent = json.info.producer_name || '-';
+              document.getElementById('qr-res-expiry').textContent = json.info.expiry_date || '-';
+              document.getElementById('qr-res-assoc').textContent = json.info.association_name || '-';
+              document.getElementById('qr-res-token').textContent = json.info.token || '-';
+              document.getElementById('qr-result').style.display = 'block';
+              status.textContent = json.status === 'ok' ? 'Consumo registrado.' : 'QR já consumido.';
+              stopQRCamera();
+              return;
             } else {
-              window.location.href = '/scan/' + encodeURIComponent(data);
+              status.textContent = 'QR inválido.';
             }
-          } catch {
-            window.location.href = '/scan/' + encodeURIComponent(data);
+          } catch (err) {
+            console.error(err);
+            status.textContent = 'Erro ao consultar QR.';
           }
-          return;
         }
       }
       qrAnimationId = requestAnimationFrame(tick);

@@ -46,6 +46,25 @@
     "already": "Este QR já foi consumido.",
     "notfound": "QR code inválido."
   },
+  "home": {
+    "title": "Da Comunidade para a Comunidade",
+    "subtitle": "Unimos produção local, capacitação e distribuição justa para garantir acesso ao D’Leite Vegetal de forma simples, transparente e inclusiva.",
+    "ctaScan": "LER QR CODE DA EMBALAGEM",
+    "ctaLogin": "i9 / Associação Login"
+  },
+  "impact": {
+    "title": "Nosso Impacto",
+    "liters": "Litros",
+    "families": "Famílias",
+    "yearsStudy": "Anos de estudo",
+    "yearsDelivery": "Anos de entrega"
+  },
+  "qr": {
+    "modalTitle": "Escanear QR Code",
+    "modalSubtitle": "Aponte a câmera para o código QR da embalagem",
+    "initializing": "Inicializando câmera...",
+    "resultTitle": "Resultado da Leitura"
+  },
   "consume": {
     "hero_title": "Leia o QR do seu leite",
     "hero_desc": "Aponte a câmera para o QR do rótulo para marcar sua unidade como consumida.",

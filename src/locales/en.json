@@ -46,6 +46,25 @@
     "already": "This QR was already consumed.",
     "notfound": "Invalid QR code."
   },
+  "home": {
+    "title": "From the Community to the Community",
+    "subtitle": "We bring together local production, training, and fair distribution to ensure access to D’Leite Vegetal in a simple, transparent, and inclusive way.",
+    "ctaScan": "SCAN PACKAGE QR CODE",
+    "ctaLogin": "i9 / Association Login"
+  },
+  "impact": {
+    "title": "Our Impact",
+    "liters": "Liters",
+    "families": "Families",
+    "yearsStudy": "Years of study",
+    "yearsDelivery": "Years of delivery"
+  },
+  "qr": {
+    "modalTitle": "Scan QR Code",
+    "modalSubtitle": "Point the camera at the package QR code",
+    "initializing": "Initializing camera...",
+    "resultTitle": "Scan Result"
+  },
   "consume": {
     "hero_title": "Scan Your Milk",
     "hero_desc": "Point your camera at the QR label to mark your unit as consumed.",

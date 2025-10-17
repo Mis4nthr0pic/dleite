@@ -23,8 +23,8 @@ i18next
     preload: ['pt', 'en'],
     backend: { loadPath: path.join(__dirname, 'locales', '{{lng}}.json') },
     detection: {
-      // Default to Portuguese unless user explicitly chooses via ?lng= or stored cookie
-      order: ['querystring', 'cookie'],
+      // Querystring has priority, then cookie, then browser header as fallback
+      order: ['querystring', 'cookie', 'header'],
       caches: ['cookie'],
       cookieSecure: false
     },

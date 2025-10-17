@@ -95,7 +95,10 @@ document.addEventListener('mouseleave', () => {
 
 // Animated Counter for Stats
 function animateCounter(el) {
-  const target = parseInt(el.dataset.count);
+  const raw = el.dataset.count;
+  if (!raw) return; // no target -> leave static content
+  const target = parseInt(String(raw).replace(/\D/g, ''), 10);
+  if (isNaN(target)) return;
   const duration = 2000;
   const start = 0;
   const increment = target / (duration / 16);
@@ -121,7 +124,7 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const statNumbers = entry.target.querySelectorAll('.stat-number');
+      const statNumbers = entry.target.querySelectorAll('.stat-number[data-count]');
       statNumbers.forEach(animateCounter);
       observer.unobserve(entry.target);
     }

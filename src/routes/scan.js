@@ -75,3 +75,25 @@ router.get('/info/:token', async (req, res) => {
 });
 
 module.exports = router;
+
+// JSON API: consume and return details (for modal usage)
+router.get('/api/:token', async (req, res) => {
+  try {
+    const result = await QRCodeService.consume(req.params.token);
+    const info = {
+      token: result.token,
+      batch_number: result.batch_number,
+      expiry_date: result.expiry_date,
+      producer_name: result.producer_name,
+      association_name: result.neighborhood_name,
+      consumed_at: result.consumed_at,
+    };
+    return res.json({ success: true, status: result.alreadyConsumed ? 'already' : 'ok', info });
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({ success: false, status: 'notfound' });
+    }
+    console.error('Error consuming QR code (API):', error);
+    return res.status(500).json({ success: false, status: 'error' });
+  }
+});
